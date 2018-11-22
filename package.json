@@ -1,0 +1,7 @@
+{
+    "main": "zipfilemap.js",
+    "dependencies": {
+        "request": "^2.88.0",
+        "yauzl": "^2.10.0"
+    }
+}
