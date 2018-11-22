@@ -3,7 +3,7 @@
 const yauzl = require('yauzl');
 const request = require('request');
 
-module.exports = function zipfilemap(moduleOptions) {
+module.exports = function zipfilemap(moduleOptions = {}) {
     const module = {
         fromLink: linkzipfilemap,
         fromBuffer: unpackZippedBuffer,
@@ -37,7 +37,6 @@ module.exports = function zipfilemap(moduleOptions) {
                     errors += 1;
                     return reject(err);
                 }
-                zipfile.readEntry();
                 zipfile.on('entry', (entry) => {
                     if (/\/$/.test(entry.fileName)) {
                         entriesProcessed += 1;
