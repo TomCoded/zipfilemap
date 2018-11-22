@@ -1,7 +1,7 @@
 # zipfilemap
 
-[![Build Status](https://travis-ci.org/tomcoded/zipfilemap.svg?branch=master)](https://travis-ci.org/tomcoded/zipfilemap)
-#[![Coverage Status](https://img.shields.io/coveralls/tomcoded/zipfilemap.svg)](https://coveralls.io/r/tomcoded/zipfilemap)
+[![Build Status](https://travis-ci.org/tomCoded/zipfilemap.svg?branch=master)](https://travis-ci.org/tomCoded/zipfilemap)
+<!--- [![Coverage Status](https://img.shields.io/coveralls/tomcoded/zipfilemap.svg)](https://coveralls.io/r/tomcoded/zipfilemap) --->
 
 Zipfilemap maps zip file from buffers to JavaScript dictionaries for easy use of the contained file data.
 
