@@ -9,12 +9,12 @@ Zipfilemap maps a zipfiles from URLs or buffers to JavaScript dictionaries.
 
 ### Read the contents of a zipfile into a JavaScript dictionary
 ```js
-const zipfilemap = require("zipfilemap");
+const zipfilemap = require('zipfilemap');
 const fs = require('fs');
 
 const zipBuffer = fs.readFileSync('/path/to/myfile.zip');
 
-async myTestFunction() {
+async function myTestFunction() {
       zipDict = await zipfilemap.fromBuffer(zipBuffer);
       
       Object.keys(zipDict).forEach((key)=>{
@@ -27,7 +27,7 @@ async myTestFunction() {
 ```js
 const zipfilemap = require("zipfilemap");
 
-async myTestFunction() {
+async function myTestFunction() {
       options = {
         uri: 'http://localhost/test.zip'
       }
