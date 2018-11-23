@@ -40,6 +40,9 @@ module.exports = function zipfilemap(moduleOptions = {}) {
                 zipfile.on('entry', (entry) => {
                     if (/\/$/.test(entry.fileName)) {
                         entriesProcessed += 1;
+                        if (!errors && entriesProcessed === zipfile.entryCount) {
+                            return resolve(result);
+                        }
                     } else {
                         zipfile.openReadStream(entry, (errOpenRS, readStream) => {
                             if (errOpenRS) {
@@ -78,6 +81,9 @@ module.exports = function zipfilemap(moduleOptions = {}) {
                         errors += 1;
                         return reject(err);
                     }
+		    if(zipfile.entryCount === 0) {
+			return resolve(result);
+		    }
                     return null;
                 });
                 zipfile.on('error', (zerr) => {
