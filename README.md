@@ -3,10 +3,11 @@
 [![Build Status](https://travis-ci.org/TomCoded/zipfilemap.svg?branch=master)](https://travis-ci.org/TomCoded/zipfilemap)
 [![Coverage Status](https://img.shields.io/coveralls/TomCoded/zipfilemap.svg)](https://coveralls.io/r/TomCoded/zipfilemap)
 
-Zipfilemap maps zip file from URLs or buffers to JavaScript dictionaries.
+Zipfilemap maps a zipfiles from URLs or buffers to JavaScript dictionaries.
 
 ## Usage Examples
 
+### Read the contents of a zipfile into a javascript dictionary
 ```js
 const zipfilemap = require("zipfilemap");
 const fs = require('fs');
@@ -22,6 +23,7 @@ async myTestFunction() {
 }
 ```
 
+### Read a zipfile from the web into a javascript dictionary
 ```js
 const zipfilemap = require("zipfilemap");
 
