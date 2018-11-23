@@ -23,12 +23,17 @@ const goodFiles = {
     dirWithFilePath: {
 	name: 'dirWithFilePath',
 	path: makeFixturePath('dirWithFile.zip'),
-	filesInZip: [ 'quote3' ],
+	filesInZip: [ 'dirWithFile/quote3' ],
     },
     emptyDirPlusPath: {
 	name: 'emptyDirPlusPath',
 	path: makeFixturePath('emptyDirPlus.zip'),
-	filesInZip: [ 'quote1', 'quote2' ],
+	filesInZip: [ 'quote1', 'quote2', 'binaryData' ],
+    },
+    emptyZip: {
+	name: 'empty',
+	path: makeFixturePath('empty.zip'),
+	filesInZip: [],
     },
 };
 
@@ -38,8 +43,8 @@ const badFile = {
 
 let zipBuffer;
 
-function checkGoodFile(file) {
-    describe('local file tests on good file', () => {
+function checkGoodFile(file, description) {
+    describe(description, () => {
 	beforeEach('', () => {
 	    zipBuffer = fs.readFileSync(file.path);
 	});
@@ -72,8 +77,8 @@ function checkGoodFile(file) {
     });
 }
 
-Object.values(goodFiles).forEach((file) => {
-    checkGoodFile(file);
+Object.values(goodFiles).forEach((file, key) => {
+    checkGoodFile(file, 'local file tests on good file ' + file.path);
 });
 
 describe('local file tests on bad file', () => {
