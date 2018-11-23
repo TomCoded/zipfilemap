@@ -7,7 +7,7 @@ Zipfilemap maps a zipfiles from URLs or buffers to JavaScript dictionaries.
 
 ## Usage Examples
 
-### Read the contents of a zipfile into a javascript dictionary
+### Read the contents of a zipfile into a JavaScript dictionary
 ```js
 const zipfilemap = require("zipfilemap");
 const fs = require('fs');
@@ -23,7 +23,7 @@ async myTestFunction() {
 }
 ```
 
-### Read a zipfile from the web into a javascript dictionary
+### Read a zipfile from the web into a JavaScript dictionary
 ```js
 const zipfilemap = require("zipfilemap");
 
