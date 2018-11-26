@@ -1,7 +1,7 @@
 {
     "main": "zipfilemap.js",
     "name": "zipfilemap",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Fetches Zipfiles from the Web or a NodeJS buffer and loads them into memory as javascript dictionaries.",
     "scripts": {
         "test": "mocha",
@@ -26,7 +26,7 @@
         "yauzl": "^2.10.0"
     },
     "author": "Thomas White <tomtinkerer@gmail.com>",
-    "LICENSE": "MIT",
+    "license": "MIT",
     "bugs": {
 	"url": "https://github.com/TomCoded/zipfilemap/issues/"
     },
