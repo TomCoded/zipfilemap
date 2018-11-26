@@ -5,7 +5,7 @@ const request = require('request');
 
 module.exports = function zipfilemap(moduleOptions = {}) {
     const module = {
-        fromLink: linkzipfilemap,
+        fromLink: fromLink,
         fromBuffer: unpackZippedBuffer,
         options: moduleOptions,
     };
@@ -13,7 +13,7 @@ module.exports = function zipfilemap(moduleOptions = {}) {
     module.options = module.options || {};
     module.options.streaming = module.options.streaming || false;
 
-    async function linkzipfilemap(options) {
+    async function fromLink(options) {
         options.encoding = null;
         return new Promise((resolve, reject) => {
             request(options, (error, response, body) => {
