@@ -5,7 +5,7 @@ const request = require('request');
 
 module.exports = function zipfilemap() {
     const module = {
-        fromLink: fromLink,
+        fromLink,
         fromBuffer: unpackZippedBuffer,
     };
 
@@ -24,8 +24,10 @@ module.exports = function zipfilemap() {
 
     async function unpackZippedBuffer(zipBuffer, options) {
         const result = {};
-	options = options || {};
-	options.streaming = options.streaming || false;
+        /* eslint-disable no-param-reassign */
+        options = options || {};
+        options.streaming = options.streaming || false;
+        /* eslint-enable no-param-reassign */
         const yauzlOptions = null;
         let errors = false;
         let entriesProcessed = 0;
@@ -73,15 +75,16 @@ module.exports = function zipfilemap() {
                             return null;
                         });
                     }
+                    return null;
                 });
                 zipfile.on('end', (zerr) => {
                     if (zerr) {
                         errors += 1;
                         return reject(err);
                     }
-		    if(zipfile.entryCount === 0) {
-			return resolve(result);
-		    }
+                    if (zipfile.entryCount === 0) {
+                        return resolve(result);
+                    }
                     return null;
                 });
                 zipfile.on('error', (zerr) => {
