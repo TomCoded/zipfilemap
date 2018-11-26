@@ -75,11 +75,16 @@ it('should open url of file', async () => {
     assert(dictOfFiles);
 });
 
-function checkGoodLink(file, description) {
+function checkGoodZip(file, description, isLink) {
     let dictOfFiles;
     describe(description, () => {
-	beforeEach('opening remote file', async () => {
-	    dictOfFiles = await zipfilemap.fromLink({uri: file.url});
+	beforeEach('opening file', async () => {
+	    if (isLink) {
+		dictOfFiles = await zipfilemap.fromLink({uri: file.url});
+	    } else {
+		let zipBuffer = fs.readFileSync(file.path);
+		dictOfFiles = await zipfilemap.fromBuffer(zipBuffer);
+	    }
 	});
 
 	it('should unzip file to memory', async () => {
@@ -107,7 +112,9 @@ function checkGoodLink(file, description) {
 }
 
 Object.values(goodFiles).forEach((file, key) => {
-    checkGoodLink(file, 'tests on good file or link ' + file.path);
+    const isLink = true;
+    checkGoodZip(file, 'tests on good mocked url ' + file.url, isLink);
+    checkGoodZip(file, 'tests on good local file ' + file.path);
 });
 
 // describe('local file tests on bad file', () => {
