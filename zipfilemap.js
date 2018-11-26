@@ -3,15 +3,11 @@
 const yauzl = require('yauzl');
 const request = require('request');
 
-module.exports = function zipfilemap(moduleOptions = {}) {
+module.exports = function zipfilemap() {
     const module = {
         fromLink: fromLink,
         fromBuffer: unpackZippedBuffer,
-        options: moduleOptions,
     };
-
-    module.options = module.options || {};
-    module.options.streaming = module.options.streaming || false;
 
     async function fromLink(options) {
         options.encoding = null;
@@ -26,13 +22,15 @@ module.exports = function zipfilemap(moduleOptions = {}) {
         });
     }
 
-    async function unpackZippedBuffer(zipBuffer) {
-        const options = null;
+    async function unpackZippedBuffer(zipBuffer, options) {
         const result = {};
+	options = options || {};
+	options.streaming = options.streaming || false;
+        const yauzlOptions = null;
         let errors = false;
         let entriesProcessed = 0;
         return new Promise((resolve, reject) => {
-            yauzl.fromBuffer(zipBuffer, options, (err, zipfile) => {
+            yauzl.fromBuffer(zipBuffer, yauzlOptions, (err, zipfile) => {
                 if (err) {
                     errors += 1;
                     return reject(err);
@@ -49,7 +47,7 @@ module.exports = function zipfilemap(moduleOptions = {}) {
                                 errors += 1;
                                 return reject(errOpenRS);
                             }
-                            if (module.options.streaming) {
+                            if (options.streaming) {
                                 result[entry.fileName] = readStream;
                                 entriesProcessed += 1;
                                 if (!errors && entriesProcessed === zipfile.entryCount) {

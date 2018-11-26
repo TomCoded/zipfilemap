@@ -68,28 +68,6 @@ const badFiles = {
     }
 };
 
-let zipBuffer;
-
-function requestPromise(url) {
-    return new Promise((resolve, reject) => {
-        request({uri: url, encoding: null}, (error, response, body) => {
-            if (error) {
-                reject(error);
-            } else {
-                //resolve(response);
-                resolve(body);
-            }
-        });
-    });
-}
-
-it('should open url of file', async () => {
-    let url = goodFiles.threeFiles.url;
-    const p1 = await requestPromise(url);
-    const dictOfFiles = await zipfilemap.fromLink({uri: url});
-    assert(dictOfFiles);
-});
-
 function checkGoodZip(file, description, isLink) {
     let dictOfFiles;
     describe(description, () => {
