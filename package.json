@@ -1,5 +1,8 @@
 {
     "main": "zipfilemap.js",
+    "name": "zipfilemap",
+    "version": "1.0.0",
+    "description": "Fetches Zipfiles from the Web or a NodeJS buffer and loads them into memory as javascript dictionaries.",
     "scripts": {
         "test": "mocha",
         "test-cov": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf .coverage",
@@ -8,10 +11,26 @@
         "lint": "eslint *.js test/*.js",
         "lint-fix": "eslint *.js test/*.js --fix"
     },
+    "repository": {
+	"type": "git",
+	"url": "git+https://github.com/TomCoded/zipfilemap.git"
+    },
+    "keywords": [
+	"zip",
+	"zipfile",
+	"dictionaries",
+	"web"
+    ],
     "dependencies": {
         "request": "^2.88.0",
         "yauzl": "^2.10.0"
     },
+    "author": "Thomas White <tomtinkerer@gmail.com>",
+    "LICENSE": "MIT",
+    "bugs": {
+	"url": "https://github.com/TomCoded/zipfilemap/issues/"
+    },
+    "homepage": "https://github.com/TomCoded/zipfilemap#readme",
     "devDependencies": {
         "coveralls": "^3.0.2",
         "istanbul": "^1.1.0-alpha.1",
