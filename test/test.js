@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const zipfilemap = require('../')({});
 require('./fixtures/nockZipFiles.js');
+require('./fixtures/nockFailures.js');
 
 const request = require('request');
 
@@ -49,8 +50,22 @@ const goodFiles = {
     },
 };
 
-const badFile = {
-    path: makeFixturePath('binaryData'),
+const badFiles = {
+    binaryData: {
+	name: 'randomBinaryData',
+	path: makeFixturePath('binaryData'),
+	filesInZip: [],
+    },
+    404: {
+	name: '404',
+	url: makeFixtureURL('404'),
+	status: 404
+    },
+    500: {
+	name: '500',
+	url: makeFixtureURL('500'),
+	status: 500
+    }
 };
 
 let zipBuffer;
@@ -117,14 +132,36 @@ Object.values(goodFiles).forEach((file, key) => {
     checkGoodZip(file, 'tests on good local file ' + file.path);
 });
 
-// describe('local file tests on bad file', () => {
-//     beforeEach('', () => {
-// 	zipBuffer = fs.readFileSync(badFile.path);
-//     });
 
-//     it('should fail to unzip random local file to memory', async () => {
-//         assert.rejects(zipfilemap.fromBuffer(zipBuffer), /end of central directory record signature not found/);
-//     });
+it('should fail to fetch un-mocked file', async () => {
+    let file = {
+	url: 'http://localhost/unnockedfile.zip'
+    };
+    await assert.rejects(zipfilemap.fromLink({uri: file.url}),/No match for request/)	
+});
 
-// });
+async function checkBadZip(file, description, expectedError, isLink) {
+    let dictOfFiles;
+    it(description, async () => {
+	if (isLink) {
+	    assert.rejects(zipfilemap.fromLink({uri: file.url}), expectedError);
+	} else {
+	    let zipBuffer = fs.readFileSync(file.path);
+	    assert.rejects(zipfilemap.fromBuffer(zipBuffer), expectedError);
+	}
+    });
+}
 
+describe('test failure cases', () => {
+
+    Object.values(badFiles).forEach((file, key) => {
+	if('url' in file) {
+	    const isLink = true;
+	    checkBadZip(file, 'tests on bad mocked url ' + file.url, /end of central directory/, isLink);
+	}
+	if('path' in file) {
+	    checkBadZip(file, 'tests on bad local file ' + file.path, /end of central directory/);
+	}
+    });
+
+});
