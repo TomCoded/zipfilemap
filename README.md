@@ -5,6 +5,12 @@
 
 Zipfilemap maps a zipfiles from URLs or buffers to JavaScript dictionaries.
 
+## Installation
+
+```
+npm i zipfilemap
+```
+
 ## Usage Examples
 
 ### Read the contents of a zipfile into a JavaScript dictionary
