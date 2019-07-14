@@ -12,14 +12,14 @@
         "lint-fix": "eslint *.js test/*.js --fix"
     },
     "repository": {
-	"type": "git",
-	"url": "git+https://github.com/TomCoded/zipfilemap.git"
+        "type": "git",
+        "url": "git+https://github.com/TomCoded/zipfilemap.git"
     },
     "keywords": [
-	"zip",
-	"zipfile",
-	"dictionaries",
-	"web"
+        "zip",
+        "zipfile",
+        "dictionaries",
+        "web"
     ],
     "dependencies": {
         "request": "^2.88.0",
@@ -28,7 +28,7 @@
     "author": "Thomas White <tomtinkerer@gmail.com>",
     "license": "MIT",
     "bugs": {
-	"url": "https://github.com/TomCoded/zipfilemap/issues/"
+        "url": "https://github.com/TomCoded/zipfilemap/issues/"
     },
     "homepage": "https://github.com/TomCoded/zipfilemap#readme",
     "devDependencies": {
