@@ -1,7 +1,6 @@
 'use strict';
 
 const yauzl = require('yauzl');
-const request = require('request');
 
 module.exports = function zipfilemap() {
     const module = {
@@ -10,16 +9,11 @@ module.exports = function zipfilemap() {
     };
 
     async function fromLink(options) {
-        options.encoding = null;
-        return new Promise((resolve, reject) => {
-            request(options, (error, response, body) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(unpackZippedBuffer(body));
-                }
-            });
-        });
+        const url = options.uri || options.url;
+        const response = await fetch(url);
+        const arrayBuffer = await response.arrayBuffer();
+        const body = Buffer.from(arrayBuffer);
+        return unpackZippedBuffer(body);
     }
 
     async function unpackZippedBuffer(zipBuffer, options) {
