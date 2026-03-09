@@ -11,6 +11,9 @@ module.exports = function zipfilemap() {
     async function fromLink(options) {
         const url = options.uri || options.url;
         const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} ${response.statusText}`);
+        }
         const arrayBuffer = await response.arrayBuffer();
         const body = Buffer.from(arrayBuffer);
         return unpackZippedBuffer(body);

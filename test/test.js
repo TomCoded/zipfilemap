@@ -117,13 +117,13 @@ it('should fail to fetch un-mocked file', async () => {
     await assert.rejects(zipfilemap.fromLink({ uri: file.url }), /No match for request/);
 });
 
-async function checkBadZip(file, description, expectedError, isLink) {
+function checkBadZip(file, description, expectedError, isLink) {
     it(description, async () => {
         if (isLink) {
-            assert.rejects(zipfilemap.fromLink({ uri: file.url }), expectedError);
+            await assert.rejects(zipfilemap.fromLink({ uri: file.url }), expectedError);
         } else {
             const zipBuffer = fs.readFileSync(file.path);
-            assert.rejects(zipfilemap.fromBuffer(zipBuffer), expectedError);
+            await assert.rejects(zipfilemap.fromBuffer(zipBuffer), expectedError);
         }
     });
 }
@@ -132,10 +132,59 @@ describe('test failure cases', () => {
     Object.values(badFiles).forEach((file) => {
         if ('url' in file) {
             const isLink = true;
-            checkBadZip(file, `tests on bad mocked url ${file.url}`, /end of central directory/, isLink);
+            checkBadZip(file, `tests on bad mocked url ${file.url}`, new RegExp(`HTTP ${file.status}`), isLink);
         }
         if ('path' in file) {
             checkBadZip(file, `tests on bad local file ${file.path}`, /end of central directory/);
         }
+    });
+});
+
+describe('streaming option', () => {
+    it('should return read streams instead of strings', async () => {
+        const zipBuffer = fs.readFileSync(makeFixturePath('threeFiles.zip'));
+        const dictOfFiles = await zipfilemap.fromBuffer(zipBuffer, { streaming: true });
+        assert(dictOfFiles);
+        assert.strictEqual(Object.keys(dictOfFiles).length, 3);
+        Object.values(dictOfFiles).forEach((stream) => {
+            assert.strictEqual(typeof stream.on, 'function');
+            assert.strictEqual(typeof stream.read, 'function');
+        });
+    });
+
+    it('should produce streams whose contents match the original files', async () => {
+        const zipBuffer = fs.readFileSync(makeFixturePath('threeFiles.zip'));
+        const dictOfFiles = await zipfilemap.fromBuffer(zipBuffer, { streaming: true });
+        const filenames = [ 'quote1', 'quote2', 'binaryData' ];
+        await Promise.all(filenames.map((filename) => {
+            return new Promise((resolve, reject) => {
+                let data = '';
+                dictOfFiles[filename].on('data', (chunk) => { data += chunk.toString(); });
+                dictOfFiles[filename].on('end', () => {
+                    const original = fs.readFileSync(makeFixturePath(filename)).toString();
+                    assert.strictEqual(data, original);
+                    resolve();
+                });
+                dictOfFiles[filename].on('error', reject);
+            });
+        }));
+    });
+});
+
+describe('fromLink with url key', () => {
+    it('should accept url option instead of uri', async () => {
+        const dictOfFiles = await zipfilemap.fromLink({ url: makeFixtureURL('threeFiles.zip') });
+        assert(dictOfFiles);
+        assert.strictEqual(Object.keys(dictOfFiles).length, 3);
+    });
+});
+
+describe('fromBuffer with invalid input', () => {
+    it('should reject when given null', async () => {
+        await assert.rejects(zipfilemap.fromBuffer(null), TypeError);
+    });
+
+    it('should reject when given undefined', async () => {
+        await assert.rejects(zipfilemap.fromBuffer(undefined), TypeError);
     });
 });
