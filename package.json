@@ -5,8 +5,7 @@
     "description": "Fetches Zipfiles from the Web or a NodeJS buffer and loads them into memory as javascript dictionaries.",
     "scripts": {
         "test": "mocha",
-        "test-cov": "c8 --reporter=lcov mocha && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-        "test-travis": "c8 --reporter=lcov mocha && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+        "test-cov": "c8 mocha",
         "lint": "eslint *.js test/*.js",
         "lint-fix": "eslint *.js test/*.js --fix"
     },
@@ -31,7 +30,6 @@
     "homepage": "https://github.com/TomCoded/zipfilemap#readme",
     "devDependencies": {
         "c8": "^10.0.0",
-        "coveralls": "^3.0.2",
         "mocha": "^10.2.0",
         "nock": "^14.0.0"
     }
