@@ -20,7 +20,7 @@
         "web"
     ],
     "dependencies": {
-        "yauzl": "^2.10.0"
+        "yauzl": "^3.2.1"
     },
     "author": "Thomas White <tomtinkerer@gmail.com>",
     "license": "MIT",
